@@ -1,10 +1,15 @@
 {
   "expo": {
+    "experiments": {
+      "typedRoutes": true,
+      "tsconfigPaths": true
+    },
     "scheme": "acme",
     "web": {
       "bundler": "metro"
     },
     "name": "habbittrack",
-    "slug": "habbittrack"
+    "slug": "habbittrack",
+    "plugins": ["expo-router"]
   }
 }
