@@ -8,6 +8,7 @@ import MonthYearPicker from '@/components/month-year-picker'
 import {SectionList, Text, View, Pressable} from 'react-native'
 import {useRoutineStore} from '@/store/routineStore'
 import {Ionicons} from '@expo/vector-icons'
+import {BottomSheetModalProvider} from '@gorhom/bottom-sheet'
 
 export default function HomeScreen() {
   const [month, setMonth] = useState(() => startOfToday().getMonth() + 1)
@@ -23,101 +24,101 @@ export default function HomeScreen() {
 
   return (
     <ScreenWrapper>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginBottom: 10,
-          paddingHorizontal: 20,
-        }}
-      >
-        <MonthYearPicker month={month} setMonth={setMonth} />
-
-        <Pressable
+      <BottomSheetModalProvider>
+        <View
           style={{
-            backgroundColor: 'red',
-            borderRadius: 999,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
             alignItems: 'center',
-            justifyContent: 'center',
-            width: 50,
-            height: 50,
+            paddingHorizontal: 20,
           }}
-          onPress={() => resetRoutine()}
         >
-          <Ionicons name="trash-bin" size={25} color="white" />
-        </Pressable>
-      </View>
+          <MonthYearPicker month={month} setMonth={setMonth} />
 
-      <DateSlider month={month} year={year} />
+          <Pressable
+            style={{
+              backgroundColor: 'red',
+              borderRadius: 999,
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: 35,
+              height: 35,
+            }}
+            onPress={() => resetRoutine()}
+          >
+            <Ionicons name="trash-bin" size={15} color="white" />
+          </Pressable>
+        </View>
 
-      <View
-        style={{
-          flex: 1,
-          justifyContent: 'flex-start',
-        }}
-      >
-        <SectionList
-          sections={routines}
-          renderItem={({item, section: {title}}) => (
-            <Pressable
-              onPress={() =>
-                removeHabit(
-                  {
-                    id: item.id,
-                    title: item.title,
-                  },
-                  title
-                )
-              }
-              style={{
-                backgroundColor: '#fafafa',
-                padding: 10,
-                borderRadius: 10,
-              }}
-            >
-              <Text>{item.title}</Text>
-            </Pressable>
-          )}
-          renderSectionHeader={({section: {title: habit}}) => (
-            <View
-              style={{
-                backgroundColor: 'white',
-                padding: 10,
-                borderRadius: 10,
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              }}
-            >
-              <Text>{habit}</Text>
+        <DateSlider month={month} year={year} />
 
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'flex-start',
+          }}
+        >
+          <SectionList
+            sections={routines}
+            renderItem={({item, section: {title}}) => (
               <Pressable
-                style={{
-                  backgroundColor: 'black',
-                  borderRadius: 999,
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  width: 50,
-                  height: 50,
-                  marginRight: 10,
-                }}
                 onPress={() =>
-                  addHabit(
+                  removeHabit(
                     {
-                      id: Math.random().toString(),
-                      title: 'test',
+                      id: item.id,
+                      title: item.title,
                     },
-                    habit
+                    title
                   )
                 }
+                style={{
+                  backgroundColor: '#fafafa',
+                  padding: 10,
+                  borderRadius: 10,
+                }}
               >
-                <Ionicons name="add" size={25} color="white" />
+                <Text>{item.title}</Text>
               </Pressable>
-            </View>
-          )}
-          ItemSeparatorComponent={() => <View style={{height: 10}} />}
-        />
-      </View>
+            )}
+            renderSectionHeader={({section: {title: habit}}) => (
+              <View
+                style={{
+                  backgroundColor: 'white',
+                  padding: 10,
+                  borderRadius: 10,
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                }}
+              >
+                <Text>{habit}</Text>
+
+                <Pressable
+                  style={{
+                    backgroundColor: 'black',
+                    borderRadius: 999,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    width: 40,
+                    height: 40,
+                  }}
+                  onPress={() =>
+                    addHabit(
+                      {
+                        id: Math.random().toString(),
+                        title: 'test',
+                      },
+                      habit
+                    )
+                  }
+                >
+                  <Ionicons name="add" size={25} color="white" />
+                </Pressable>
+              </View>
+            )}
+            ItemSeparatorComponent={() => <View style={{height: 10}} />}
+          />
+        </View>
+      </BottomSheetModalProvider>
     </ScreenWrapper>
   )
 }

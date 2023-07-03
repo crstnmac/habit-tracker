@@ -1,5 +1,5 @@
 import {View, Text, StyleSheet, Pressable} from 'react-native'
-import React from 'react'
+import React, {useCallback} from 'react'
 
 import {format, startOfToday} from 'date-fns'
 import PagerView from 'react-native-pager-view'
@@ -30,59 +30,60 @@ export default function DateSlider({
       initialPage={0}
     >
       {dates.map((week, i) => (
-        <View key={i}>
-          <View
-            style={[
-              styles.container,
-              {
-                justifyContent:
-                  week.length === 7 ? 'space-between' : 'flex-start',
-              },
-            ]}
-          >
-            {week.map((day, i) => {
-              const text = format(day, 'EEEEEE')
-              const date = format(day, 'dd')
-              return (
-                <View
-                  key={i}
+        <View
+          key={i}
+          style={[
+            styles.container,
+            {
+              justifyContent:
+                week.length === 7 ? 'space-between' : 'flex-start',
+            },
+          ]}
+        >
+          {week.map((day, i) => {
+            const text = format(day, 'EEEEEE')
+            const date = format(day, 'dd')
+            return (
+              <View
+                key={i}
+                style={{
+                  alignItems: 'center',
+                  justifyContent: 'center',
+
+                  paddingHorizontal: 2,
+                }}
+              >
+                <Text
                   style={{
-                    alignItems: 'center',
-                    paddingRight: week.length < 7 ? 8 : 0,
+                    fontSize: 15,
+                    paddingBottom: 5,
                   }}
+                >
+                  {text}
+                </Text>
+                <Pressable
+                  key={i}
+                  style={({pressed}) => [
+                    styles.date,
+                    {
+                      backgroundColor: pressed ? '#E5E5E5' : 'transparent',
+                      borderColor: pressed ? '#E5E5E5' : '#000',
+                    },
+                  ]}
+                  onPress={() => console.log(date)}
                 >
                   <Text
                     style={{
                       fontSize: 15,
-                      paddingBottom: 5,
+                      fontFamily: 'Inter-Bold',
                     }}
                   >
-                    {text}
+                    {date}
                   </Text>
-                  <Pressable
-                    key={i}
-                    style={({pressed}) => [
-                      styles.date,
-                      {
-                        backgroundColor: pressed ? '#E5E5E5' : 'transparent',
-                        borderColor: pressed ? '#E5E5E5' : '#000',
-                      },
-                    ]}
-                    onPress={() => console.log(date)}
-                  >
-                    <Text
-                      style={{
-                        fontSize: 15,
-                        fontFamily: 'Inter-Bold',
-                      }}
-                    >
-                      {date}
-                    </Text>
-                  </Pressable>
-                </View>
-              )
-            })}
-          </View>
+                </Pressable>
+              </View>
+            )
+          })}
         </View>
       ))}
     </PagerView>
@@ -92,14 +93,12 @@ export default function DateSlider({
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    paddingHorizontal: 15,
   },
   date: {
-    alignItems: 'center',
     borderWidth: 1,
     backgroundColor: 'transparent',
-    paddingHorizontal: 14,
     paddingVertical: 12,
+    paddingHorizontal: 12,
     borderRadius: 100,
   },
 })

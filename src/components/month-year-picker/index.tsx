@@ -42,29 +42,27 @@ export default function MonthYearPicker({
         <Ionicons name="chevron-down" size={24} />
       </Pressable>
 
-      <BottomSheetModalProvider>
-        <BottomSheetModal
-          ref={bottomSheetRef}
-          snapPoints={snapPoints}
-          enablePanDownToClose={true}
-          enableOverDrag={false}
-          backdropComponent={CustomBackdrop}
-          containerStyle={{
-            zIndex: 100,
+      <BottomSheetModal
+        ref={bottomSheetRef}
+        snapPoints={snapPoints}
+        enablePanDownToClose={true}
+        enableOverDrag={false}
+        backdropComponent={CustomBackdrop}
+        containerStyle={{
+          zIndex: 100,
+        }}
+      >
+        <ScrollPicker
+          scrollViewComponent={BottomSheetScrollView}
+          dataSource={months}
+          onValueChange={(val, i) => {
+            setMonth(i + 1)
           }}
-        >
-          <ScrollPicker
-            scrollViewComponent={BottomSheetScrollView}
-            dataSource={months}
-            onValueChange={(val, i) => {
-              setMonth(i + 1)
-            }}
-            selectedIndex={month - 1}
-            itemHeight={50}
-            wrapperColor={'#ffffff'}
-          />
-        </BottomSheetModal>
-      </BottomSheetModalProvider>
+          selectedIndex={month - 1}
+          itemHeight={50}
+          wrapperColor={'#ffffff'}
+        />
+      </BottomSheetModal>
     </>
   )
 }
