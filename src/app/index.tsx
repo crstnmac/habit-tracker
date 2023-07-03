@@ -6,6 +6,7 @@ import {
   initialWindowMetrics,
 } from 'react-native-safe-area-context'
 import {StatusBar} from 'expo-status-bar'
+import {GestureHandlerRootView} from 'react-native-gesture-handler'
 
 export default function Index() {
   const segments = useSegments()
@@ -20,9 +21,11 @@ export default function Index() {
   }, [segments, navigationState?.key])
 
   return (
-    <SafeAreaProvider initialMetrics={initialWindowMetrics}>
-      <StatusBar style="auto" />
-      {!navigationState?.key ? <Text>LOADING...</Text> : <></>}
-    </SafeAreaProvider>
+    <GestureHandlerRootView style={{flex: 1}}>
+      <SafeAreaProvider initialMetrics={initialWindowMetrics}>
+        <StatusBar style="auto" />
+        {!navigationState?.key ? <Text>LOADING...</Text> : <></>}
+      </SafeAreaProvider>
+    </GestureHandlerRootView>
   )
 }

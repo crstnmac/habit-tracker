@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet} from 'react-native'
+import {View, Text, StyleSheet, Pressable} from 'react-native'
 import React from 'react'
 
 import {format, startOfToday} from 'date-fns'
@@ -23,7 +23,12 @@ export default function DateSlider({
   const dates = getDatesOfMonthByWeeks(year, month)
 
   return (
-    <PagerView style={{flex: 1}} initialPage={0}>
+    <PagerView
+      style={{
+        height: 100,
+      }}
+      initialPage={0}
+    >
       {dates.map((week, i) => (
         <View key={i}>
           <View
@@ -37,6 +42,7 @@ export default function DateSlider({
           >
             {week.map((day, i) => {
               const text = format(day, 'EEEEEE')
+              const date = format(day, 'dd')
               return (
                 <View
                   key={i}
@@ -53,16 +59,26 @@ export default function DateSlider({
                   >
                     {text}
                   </Text>
-                  <View key={i} style={styles.date}>
+                  <Pressable
+                    key={i}
+                    style={({pressed}) => [
+                      styles.date,
+                      {
+                        backgroundColor: pressed ? '#E5E5E5' : 'transparent',
+                        borderColor: pressed ? '#E5E5E5' : '#000',
+                      },
+                    ]}
+                    onPress={() => console.log(date)}
+                  >
                     <Text
                       style={{
                         fontSize: 15,
                         fontFamily: 'Inter-Bold',
                       }}
                     >
-                      {format(day, 'dd')}
+                      {date}
                     </Text>
-                  </View>
+                  </Pressable>
                 </View>
               )
             })}
